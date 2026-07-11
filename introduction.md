@@ -3,6 +3,8 @@ To build a **Multi-Tenant F5 WAF-as-a-Service (WAFaaS)** portal where customers 
 This type of automated tenant onboarding requires an orchestrated workflow engine that coordinates F5 BIG-IP with security controls and logging infrastructure.
 
 ---
+https://github.com/f5networks/f5-appsvcs-extension/releases
+https://clouddocs.f5.com/training/community/automation/html/class03/module1/lab02.html#
 
 ## 🏗️ Architectural Framework: The AS3 Declaration
 
