@@ -1,4 +1,3 @@
-Your idea is actually similar to what cloud providers (AWS WAF, Cloudflare Enterprise, Akamai App & API Protector) do internally: **WAF-as-a-Service (WAFaaS)** where a customer fills a form and the platform automatically provisions an application on a dedicated F5 tenant.
 
 I would design it as a **self-service provisioning platform** instead of just a Jenkins pipeline. Jenkins becomes the automation engine.
 
