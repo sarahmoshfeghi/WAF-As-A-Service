@@ -1,0 +1,74 @@
+{
+  "class": "AS3",
+  "action": "deploy",
+  "persist": true,
+  "declaration": {
+    "class": "ADC",
+    "schemaVersion": "3.45.0",
+    "id": "waf-catalog-{{ app_name }}",
+    "{{ tenant_partition }}": {
+      "class": "Tenant",
+      "{{ app_name }}": {
+        "class": "Application",
+        "template": "http",
+        "serviceMain": {
+          "class": "Service_HTTPS",
+          "virtualAddresses": ["{{ vip_address }}"],
+          "virtualPort": {{ vip_port | default(443) }},
+          "pool": "{{ app_name }}_pool",
+          "serverTLS": "{{ app_name }}_tls",
+          "securityLogProfiles": [
+            { "use": "WAF_Log_Profile" }
+          ],
+          "policyWAF": {
+            "use": "{{ app_name }}_waf_policy"
+          },
+          "dosProfile": {
+            "use": "L7_DoS_Profile"
+          }
+        },
+        "{{ app_name }}_pool": {
+          "class": "Pool",
+          "monitors": ["{{ health_check_type | default('http') }}"],
+          "members": [
+            {
+              "servicePort": {{ backend_port }},
+              "serverAddresses": {{ backend_nodes | to_json }}
+            }
+          ],
+          "loadBalancingMode": "{{ lb_algorithm | default('round-robin') }}"
+        },
+        "{{ app_name }}_tls": {
+          "class": "TLSServer",
+          "certificates": [
+            { "certificate": "{{ app_name }}_cert" }
+          ]
+        },
+        "{{ app_name }}_cert": {
+          "class": "Certificate",
+          "certificate": "{{ ssl_cert | replace('\n', '\\n') }}",
+          "privateKey": "{{ ssl_key | replace('\n', '\\n') }}"
+        },
+        "{{ app_name }}_waf_policy": {
+          "class": "WAF_Policy",
+          "url": "https://raw.githubusercontent.com/org/waf-policies/main/{{ tech_stack }}-{{ enforcement_mode }}.json",
+          "ignoreChanges": false
+        },
+        "L7_DoS_Profile": {
+          "class": "Dos_Profile",
+          "application": {
+            "captchaResponse": { "failureURL": "/dos-error.html" }
+          }
+        },
+        "WAF_Log_Profile": {
+          "class": "Security_Log_Profile",
+          "application": {
+            "remoteStorage": "remote",
+            "servers": [{ "address": "{{ syslog_server }}", "port": 514 }],
+            "storageFormat": "field-delimited"
+          }
+        }
+      }
+    }
+  }
+}
