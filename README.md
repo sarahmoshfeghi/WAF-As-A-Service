@@ -1,4 +1,5 @@
-
+complete this file for me 
+ 
 I would design it as a **self-service provisioning platform** instead of just a Jenkins pipeline. Jenkins becomes the automation engine.
 
 ---
@@ -7,41 +8,41 @@ I would design it as a **self-service provisioning platform** instead of just a 
 
 ```text
 +--------------------------------------------------------+
-|                Customer Portal / Form                  |
-|  (Flask / Django / React / ServiceNow / Jira Form)     |
+|                Customer Portal / Form                  |
+|  (Flask / Django / React / ServiceNow / Jira Form)     |
 +--------------------------+-----------------------------+
-                           |
-                           | REST API
-                           |
+                           |
+                           | REST API
+                           |
 +--------------------------------------------------------+
-|                Configuration Database                  |
-| PostgreSQL / MySQL / YAML / Git Repository             |
+|                Configuration Database                  |
+| PostgreSQL / MySQL / YAML / Git Repository             |
 +--------------------------+-----------------------------+
-                           |
-                           |
-                           v
+                           |
+                           |
+                           v
 +--------------------------------------------------------+
-|                    Jenkins Pipeline                    |
-|                                                        |
-| Validate Input                                         |
-| Generate Configuration                                |
-| Approval (optional)                                   |
-| Deploy to F5                                           |
-| Test                                                   |
-| Notify Customer                                        |
+|                    Jenkins Pipeline                    |
+|                                                        |
+| Validate Input                                         |
+| Generate Configuration                                |
+| Approval (optional)                                   |
+| Deploy to F5                                           |
+| Test                                                   |
+| Notify Customer                                        |
 +--------------------------+-----------------------------+
-                           |
-                  REST API / SSH / AS3
-                           |
-                           v
+                           |
+                  REST API / SSH / AS3
+                           |
+                           v
 +--------------------------------------------------------+
-|                 F5 BIG-IP Tenant (WAF)                 |
-|                                                        |
-| LTM                                                    |
-| ASM / Advanced WAF                                     |
-| DoS                                                    |
-| SSL                                                    |
-| Logging                                                 |
+|                 F5 BIG-IP Tenant (WAF)                 |
+|                                                        |
+| LTM                                                    |
+| ASM / Advanced WAF                                     |
+| DoS                                                    |
+| SSL                                                    |
+| Logging                                                 |
 +--------------------------------------------------------+
 ```
 
@@ -55,24 +56,24 @@ Customer fills a form.
 
 Example:
 
-| Field            | Example         |
+| Field            | Example         |
 | ---------------- | --------------- |
-| Customer Name    | ABC Company     |
-| Environment      | Production      |
-| Application Name | CRM             |
-| Domain           | crm.company.com |
-| VIP IP           | 10.10.10.10     |
-| Backend Servers  | 172.16.1.10,11  |
-| Backend Port     | 443             |
-| SSL Offloading   | Yes             |
-| Certificate      | Upload          |
-| Technology       | ASP.NET         |
-| WAF Policy       | Strict          |
-| DoS Protection   | Standard        |
-| Logging          | Splunk          |
-| Bot Protection   | Yes             |
-| Rate Limit       | 1000 req/min    |
-| Health Monitor   | HTTPS           |
+| Customer Name    | ABC Company     |
+| Environment      | Production      |
+| Application Name | CRM             |
+| Domain           | crm.company.com |
+| VIP IP           | 10.10.10.10     |
+| Backend Servers  | 172.16.1.10,11  |
+| Backend Port     | 443             |
+| SSL Offloading   | Yes             |
+| Certificate      | Upload          |
+| Technology       | ASP.NET         |
+| WAF Policy       | Strict          |
+| DoS Protection   | Standard        |
+| Logging          | Splunk          |
+| Bot Protection   | Yes             |
+| Rate Limit       | 1000 req/min    |
+| Health Monitor   | HTTPS           |
 
 ---
 
@@ -95,11 +96,11 @@ Optional
 
 ```
 Customer
-      ↓
+      ↓
 Security Team Approval
-      ↓
+      ↓
 Network Team Approval
-      ↓
+      ↓
 Deploy
 ```
 
@@ -341,42 +342,42 @@ Example
 ```yaml
 customer:
 
-  company: ABC
+  company: ABC
 
 application:
 
-  name: CRM
+  name: CRM
 
 domain:
 
-  crm.company.com
+  crm.company.com
 
 virtual_server:
 
-  ip: 10.10.10.10
+  ip: 10.10.10.10
 
 pool:
 
-  monitor: https
+  monitor: https
 
 nodes:
 
-  - 172.16.1.10
-  - 172.16.1.11
+  - 172.16.1.10
+  - 172.16.1.11
 
 technology:
 
-  aspnet
+  aspnet
 
 security:
 
-  bot: true
-  dos: standard
-  learning: false
+  bot: true
+  dos: standard
+  learning: false
 
 certificate:
 
-  customer.crt
+  customer.crt
 ```
 
 Pipeline reads YAML.
@@ -571,19 +572,19 @@ F5-WAF-Service
 
 ├── templates/
 
-│     aspnet.yaml
-│     php.yaml
-│     java.yaml
+│     aspnet.yaml
+│     php.yaml
+│     java.yaml
 
 ├── certificates/
 
 ├── scripts/
 
-│     create_pool.py
-│     create_vs.py
-│     upload_cert.py
-│     create_policy.py
-│     attach_dos.py
+│     create_pool.py
+│     create_vs.py
+│     upload_cert.py
+│     create_policy.py
+│     attach_dos.py
 
 ├── reports/
 
@@ -594,17 +595,17 @@ F5-WAF-Service
 
 # Technologies
 
-| Component       | Recommendation                                             |
+| Component       | Recommendation                                             |
 | --------------- | ---------------------------------------------------------- |
 | Customer Portal | Flask, Django, React, or an ITSM portal such as ServiceNow |
-| Workflow Engine | Jenkins                                                    |
-| Source Control  | Git                                                        |
-| Templates       | YAML                                                       |
-| Configuration   | F5 AS3 (preferred) or REST API                             |
-| Authentication  | API Token or OAuth (avoid SSH keys unless necessary)       |
-| Certificates    | PKCS#12 (.pfx) or PEM                                      |
-| Logging         | Splunk                                                     |
-| Notifications   | Email or Slack                                             |
+| Workflow Engine | Jenkins                                                    |
+| Source Control  | Git                                                        |
+| Templates       | YAML                                                       |
+| Configuration   | F5 AS3 (preferred) or REST API                             |
+| Authentication  | API Token or OAuth (avoid SSH keys unless necessary)       |
+| Certificates    | PKCS#12 (.pfx) or PEM                                      |
+| Logging         | Splunk                                                     |
+| Notifications   | Email or Slack                                             |
 
 ---
 
@@ -614,37 +615,37 @@ Frame this as a **WAF-as-a-Service Lifecycle**:
 
 ```text
 Customer Request
-        │
-        ▼
- Input Validation
-        │
-        ▼
- Security Approval (Optional)
-        │
-        ▼
- Automated Provisioning
-        ├───────────────┐
-        │               │
-        ▼               ▼
-   Load Balancer    WAF Policy
-        │               │
-        ├───────────────┤
-        ▼               ▼
-      SSL          DoS Protection
-        │
-        ▼
- Logging & Monitoring
-        │
-        ▼
- Health Validation
-        │
-        ▼
- Customer Notification
-        │
-        ▼
- Ongoing Lifecycle
- (Policy Updates, Cert Renewal,
-  Signature Updates, Decommission)
+        │
+        ▼
+ Input Validation
+        │
+        ▼
+ Security Approval (Optional)
+        │
+        ▼
+ Automated Provisioning
+        ├───────────────┐
+        │               │
+        ▼               ▼
+   Load Balancer    WAF Policy
+        │               │
+        ├───────────────┤
+        ▼               ▼
+      SSL          DoS Protection
+        │
+        ▼
+ Logging & Monitoring
+        │
+        ▼
+ Health Validation
+        │
+        ▼
+ Customer Notification
+        │
+        ▼
+ Ongoing Lifecycle
+ (Policy Updates, Cert Renewal,
+  Signature Updates, Decommission)
 ```
 
 ## Additional capabilities to include
