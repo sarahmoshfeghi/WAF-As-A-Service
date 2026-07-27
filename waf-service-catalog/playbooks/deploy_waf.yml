@@ -1,0 +1,32 @@
+---
+- name: Deploy WAF as a Service via AS3
+  hosts: localhost
+  gather_facts: no
+  vars:
+    f5_provider:
+      server: "{{ f5_host }}"
+      user: "{{ f5_username }}"
+      password: "{{ f5_password }}"
+      validate_certs: no
+
+  tasks:
+    - name: Render AS3 Declaration from Jinja2 Template
+      set_fact:
+        as3_payload: "{{ lookup('template', '../templates/as3_waf_template.j2') | from_json }}"
+
+    - name: Post AS3 Declaration to F5 Tenant Partition
+      ansible.builtin.uri:
+        url: "https://{{ f5_host }}/mgmt/shared/appsvcs/declare/{{ tenant_partition }}"
+        method: POST
+        user: "{{ f5_username }}"
+        password: "{{ f5_password }}"
+        force_basic_auth: yes
+        status_code: [200, 207]
+        body_format: json
+        body: "{{ as3_payload }}"
+        validate_certs: no
+      register: response
+
+    - name: Display F5 AS3 Deployment Status
+      debug:
+        var: response.json.message
